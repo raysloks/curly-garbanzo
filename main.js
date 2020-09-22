@@ -22,3 +22,7 @@ function onframe(time) {
 function tick() {
 
 }
+
+function oncompile() {
+    compile(document.getElementById("code").value);
+}
