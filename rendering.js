@@ -16,5 +16,12 @@ function resize() {
 
 function render() {
     resize();
-    ctx.strokeRect(0, 0, 150, 110);
+
+    ctx.strokeRect(0, -120, 100, 100);
+    ctx.strokeRect(0, -20, 100, 180);
+    ctx.strokeRect(-150, -120, 150, 280);
+    ctx.strokeRect(100, -35, 150, 110);
+    ctx.strokeRect(-300, -35, 150, 110);
+    ctx.strokeRect(-300, 75, 150, 85);
+    ctx.strokeRect(-300, -120, 150, 85);
 }
