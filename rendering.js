@@ -10,7 +10,7 @@ function resize() {
         ctx.canvas.height = height;
 
         ctx.translate(width / 2, height / 2);
-        ctx.scale(1000 / height, 1000 / height);
+        ctx.scale(height / 1000, height / 1000);
     }
 }
 
