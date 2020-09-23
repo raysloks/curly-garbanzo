@@ -1,6 +1,5 @@
 function compile(code) {
-    let statements = parse_statements(tokenize(code));
-    console.log(statements);
+    return parse_statements(tokenize(code)).flat(Infinity);
 }
 
 const regex = /\s*([a-zA-Z_]\w*|\d+|[=+\-*/]=|[=+\-*/()[\]{};])/g;
@@ -15,17 +14,17 @@ function tokenize(code) {
 }
 
 function parse_statements(tokens) {
-    let node = ["{}"];
+    let statements = [];
 
     let start = 0;
     let end = tokens.indexOf(";");
     while (end >= 0) {
-        node.push(build_tree(tokens.slice(start, end)));
+        statements.push(build_tree(tokens.slice(start, end)));
         start = end + 1;
         end = tokens.indexOf(";", start + 1);
     }
 
-    return node;
+    return statements;
 }
 
 function split_tree(tokens, operators) {
@@ -60,6 +59,9 @@ function build_tree(tokens) {
         split_tree(tokens, ["+", "-"]) ??
         split_tree(tokens, ["*", "/", "%"]) ??
         tokens[0];
+
+    if (!isNaN(parseFloat(node)))
+        return parseFloat(node);
 
     return node;
 }

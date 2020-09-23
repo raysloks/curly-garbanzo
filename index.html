@@ -8,10 +8,13 @@
 </head>
 <body onload="init()">
     <canvas id="main"></canvas>
-    <textarea id="code"></textarea>
-    <button onclick="oncompile()"></button>
+    <div class="code_container">
+        <textarea id="code"></textarea>
+        <button onclick="oncompile()">Compile</button>
+    </div>
     <script src="main.js"></script>
     <script src="rendering.js"></script>
     <script src="compiler.js"></script>
+    <script src="vm.js"></script>
 </body>
 </html>

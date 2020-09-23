@@ -1,5 +1,6 @@
 let ctx;
 let last;
+let processor;
 
 function init() {
     let canvas = document.getElementById("main");
@@ -7,22 +8,33 @@ function init() {
 
     requestAnimationFrame(onframe);
     last = performance.now();
+
+    processor = new VirtualMachine();
 }
 
 function onframe(time) {
     let delta = time - last;
+    last = time;
     delta = Math.min(33, delta);
 
     render();
 
-    setTimeout(tick, 0);
+    setTimeout(() => tick(delta), 0);
     requestAnimationFrame(onframe);
 }
 
-function tick() {
+let accumulator = 0;
+let cycle_length = 16;
 
+function tick(delta) {
+    accumulator += delta;
+    while (accumulator >= cycle_length) {
+        processor.cycle();
+        accumulator -= cycle_length;
+    }
 }
 
 function oncompile() {
-    compile(document.getElementById("code").value);
+    processor.program = compile(document.getElementById("code").value);
+    processor.ip = 0;
 }
