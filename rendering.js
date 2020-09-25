@@ -16,12 +16,16 @@ function resize() {
 
 function render() {
     resize();
+    ship_image = new Image();
+    ship_image.src = "ship_base.jpg";
 
-    ctx.strokeRect(0, -120, 100, 100);
-    ctx.strokeRect(0, -20, 100, 180);
-    ctx.strokeRect(-150, -120, 150, 280);
-    ctx.strokeRect(100, -35, 150, 110);
-    ctx.strokeRect(-300, -35, 150, 110);
-    ctx.strokeRect(-300, 75, 150, 85);
-    ctx.strokeRect(-300, -120, 150, 85);
+    ctx.drawImage(ship_image, -305, -195);
+    ctx.strokeRect(70, -120, 100, 100);
+    ctx.strokeRect(70, -20, 100, 180);
+    ctx.strokeRect(-80, -120, 150, 280);
+    ctx.strokeRect(170, -35, 150, 110);
+    ctx.strokeRect(-230, -35, 150, 110);
+    ctx.strokeRect(-230, 75, 150, 85);
+    ctx.strokeRect(-230, -120, 150, 85);
+
 }
