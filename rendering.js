@@ -17,7 +17,7 @@ function resize() {
 function render() {
     resize();
     ship_image = new Image();
-    ship_image.src = "ship_base.jpg";
+    ship_image.src = "ship_base.png";
 
     ctx.drawImage(ship_image, -305, -195);
     ctx.strokeRect(70, -120, 100, 100);
