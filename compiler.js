@@ -27,11 +27,20 @@ function parse_statements(tokens) {
     return statements;
 }
 
-function split_tree(tokens, operators) {
+function split_tree_rtl(tokens, operators) {
 
     let index = tokens.findIndex((element) => operators.includes(element));
     if (index === -1)
         return null;
+    return [build_tree(tokens.slice(0, index)), build_tree(tokens.slice(index + 1)), tokens[index]];
+}
+
+function split_tree_ltr(tokens, operators) {
+
+    let index = tokens.slice().reverse().findIndex((element) => operators.includes(element));
+    if (index === -1)
+        return null;
+    index = tokens.length - index - 1;
     return [build_tree(tokens.slice(0, index)), build_tree(tokens.slice(index + 1)), tokens[index]];
 }
 
@@ -55,12 +64,12 @@ function build_tree(tokens) {
     }
 
     let node =
-        split_tree(tokens, ["=", "+=", "-=", "*=", "/="]) ??
-        split_tree(tokens, ["+", "-"]) ??
-        split_tree(tokens, ["*", "/", "%"]) ??
+        split_tree_rtl(tokens, ["=", "+=", "-=", "*=", "/="]) ??
+        split_tree_ltr(tokens, ["+", "-"]) ??
+        split_tree_ltr(tokens, ["*", "/", "%"]) ??
         tokens[0];
 
-    if (!isNaN(parseFloat(node)))
+    if (typeof node !== "object" && !isNaN(parseFloat(node)))
         return parseFloat(node);
 
     return node;
