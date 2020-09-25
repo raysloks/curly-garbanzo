@@ -4,12 +4,12 @@ function VirtualMachine() {
     this.program = [];
     this.stack = new Array(16);
     this.variables = {};
+    this.inputs = [];
 
     this.refresh_inputs = function () {
-        this.in0 = 0;
-        this.in1 = 0;
-        this.in2 = 0;
-        this.in3 = 0;
+        for (let i = 0; i < this.inputs.length; ++i) {
+            this.variables["in" + i] = this.inputs[i].get();
+        }
     }
 
     this.cycle = function () {

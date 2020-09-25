@@ -35,6 +35,7 @@ button {
     top: 0%;
     height: 100%;
     width: 200px;
+    background-color: rgba(255, 255, 255, 0.8);
 }
 
 #animatedBackground {
@@ -44,20 +45,20 @@ button {
     top: 0;
     left: 0;
     z-index: -2;
-    background: url("space_backgr.jpg");
+    background: url("./space_backgr.jpg");
     background-repeat: repeat;
     background-position: 0 0;
     background-size: auto 100%;
-  /*adjust s value for speed*/
+    /*adjust s value for speed*/
     animation: animatedBackground 500s linear infinite;
-  }
-  
-  @keyframes animatedBackground {
+}
+
+@keyframes animatedBackground {
     from {
-      background-position: 0 0;
+        background-position: 0 0;
     }
-  /*use negative width if you want it to flow right to left else and positive for left to right*/
+    /*use negative width if you want it to flow right to left else and positive for left to right*/
     to {
-      background-position: -10000px 0;
+        background-position: -10000px 0;
     }
-  }
+}

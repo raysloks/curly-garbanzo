@@ -22,12 +22,12 @@ function render() {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
     ctx.translate(width / 2, height / 2);
-    ctx.scale(height / 1000, height / 1000);
+    ctx.scale(height / 500, height / 500);
 
     ctx.translate(-player.x, -player.y);
 
     ship_image = new Image();
-    ship_image.src = "ship_base.png";
+    ship_image.src = "./ship_base.png";
 
     ctx.drawImage(ship_image, -305, -195);
     ctx.strokeRect(70, -120, 100, 100);

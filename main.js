@@ -36,6 +36,9 @@ function Processor(x, y, code) {
     this.vm = new VirtualMachine();
     vms.push(this.vm);
     this.code = code || "";
+
+    this.vm.program = compile(this.code);
+    this.vm.ip = 0;
 }
 
 function onframe(time) {
@@ -55,6 +58,9 @@ let cycle_length = 16;
 function tick(delta) {
     accumulator += delta;
     while (accumulator >= cycle_length) {
+        for (let vm of vms) {
+            vm.refresh_inputs();
+        }
         for (let vm of vms) {
             vm.cycle();
         }
@@ -92,9 +98,8 @@ function oncodechanged() {
 }
 
 function oncompile() {
-    processor.program = compile(processor.code);
-    console.log(processor.program);
-    processor.ip = 0;
+    processor.vm.program = compile(processor.code);
+    processor.vm.ip = 0;
 }
 
 function refresh_variables() {
