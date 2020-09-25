@@ -1,3 +1,4 @@
+let sprites = [];
 
 function resize() {
     let width = ctx.canvas.clientWidth;
@@ -8,14 +9,23 @@ function resize() {
 
         ctx.canvas.width = width;
         ctx.canvas.height = height;
-
-        ctx.translate(width / 2, height / 2);
-        ctx.scale(height / 1000, height / 1000);
     }
 }
 
 function render() {
     resize();
+
+    let width = ctx.canvas.width;
+    let height = ctx.canvas.height;
+
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+    ctx.translate(width / 2, height / 2);
+    ctx.scale(height / 1000, height / 1000);
+
+    ctx.translate(-player.x, -player.y);
+
     ship_image = new Image();
     ship_image.src = "ship_base.png";
 
@@ -28,4 +38,7 @@ function render() {
     ctx.strokeRect(-230, 75, 150, 85);
     ctx.strokeRect(-230, -120, 150, 85);
 
+    for (let sprite of sprites) {
+        ctx.drawImage(sprite.image, sprite.x - sprite.w / 2, sprite.y - sprite.h / 2, sprite.w, sprite.h);
+    }
 }

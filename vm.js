@@ -5,6 +5,13 @@ function VirtualMachine() {
     this.stack = new Array(16);
     this.variables = {};
 
+    this.refresh_inputs = function () {
+        this.in0 = 0;
+        this.in1 = 0;
+        this.in2 = 0;
+        this.in3 = 0;
+    }
+
     this.cycle = function () {
         if (this.ip >= this.program.length)
             return;

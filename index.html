@@ -9,8 +9,8 @@
 <body onload="init()">
     <div id="animatedBackground"></div>
     <canvas id="main"></canvas>
-    <div class="code_container">
-        <textarea id="code"></textarea>
+    <div class="code_container" id="code_container">
+        <textarea id="code" onchange="oncodechanged()"></textarea>
         <div class="debug_container">
             <table id="variables_table"></table>
             <button onclick="oncompile()">Compile</button>
@@ -20,5 +20,6 @@
     <script src="rendering.js"></script>
     <script src="compiler.js"></script>
     <script src="vm.js"></script>
+    <script src="player.js"></script>
 </body>
 </html>
