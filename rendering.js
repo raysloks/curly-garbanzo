@@ -1,8 +1,5 @@
 let sprites = [];
 
-let ship_image = new Image();
-ship_image.src = "./ship_base.png";
-
 function resize() {
     let width = ctx.canvas.clientWidth;
     let height = ctx.canvas.clientHeight;
@@ -28,6 +25,9 @@ function render() {
     ctx.scale(height / 500, height / 500);
 
     ctx.translate(-player.x, -player.y);
+
+    let ship_image = new Image();
+    ship_image.src = "./ship_base.png";
 
     ctx.drawImage(ship_image, -305, -195);
     ctx.strokeRect(70, -120, 100, 100);
