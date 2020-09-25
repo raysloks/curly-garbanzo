@@ -10,7 +10,10 @@
     <canvas id="main"></canvas>
     <div class="code_container">
         <textarea id="code"></textarea>
-        <button onclick="oncompile()">Compile</button>
+        <div class="debug_container">
+            <table id="variables_table"></table>
+            <button onclick="oncompile()">Compile</button>
+        </div>
     </div>
     <script src="main.js"></script>
     <script src="rendering.js"></script>
