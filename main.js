@@ -16,7 +16,7 @@ function init() {
     last = performance.now();
 
     sprites.push(new Processor(-32, -64));
-    sprites.push(new Processor(-128, 32, "out0 = in0 + in1;"));
+    sprites.push(new Processor(-128, 32, "out0 = in0 + in1;", [new ConstantInput(10), new ConstantInput(12)]));
 
     player = new Player();
 
@@ -26,14 +26,14 @@ function init() {
     window.onkeydown = function (e) { pressedKeys[e.key] = true; }
 }
 
-function Processor(x, y, code) {
+function Processor(x, y, code, inputs) {
     this.x = x;
     this.y = y;
     this.image = new Image();
     this.image.src = "processor.png";
     this.w = 32;
     this.h = 32;
-    this.vm = new VirtualMachine();
+    this.vm = new VirtualMachine(inputs);
     vms.push(this.vm);
     this.code = code || "";
 
@@ -113,9 +113,18 @@ function refresh_variables() {
         let index = 0;
         for (let variable in processor.vm.variables) {
             let row = table.rows[index];
-            row.cells[0].innerHTML = variable;
-            row.cells[1].innerHTML = processor.vm.variables[variable];
+            if (row.cells[0].innerHTML != variable)
+                row.cells[0].innerHTML = variable;
+            if (row.cells[1].innerHTML != processor.vm.variables[variable])
+                row.cells[1].innerHTML = processor.vm.variables[variable];
             ++index;
+        }
+        for (; index < table.rows.length; ++index) {
+            let row = table.rows[index];
+            if (row.cells[0].innerHTML != "")
+                row.cells[0].innerHTML = "";
+            if (row.cells[1].innerHTML != "")
+                row.cells[1].innerHTML = "";
         }
     }
 }
@@ -124,6 +133,7 @@ function set_open_compiler(proc) {
     if (processor !== proc) {
         processor = proc;
         if (proc) {
+            refresh_variables();
             code_container.style.display = "block";
             document.getElementById("code").value = processor.code;
         } else {

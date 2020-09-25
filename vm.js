@@ -1,10 +1,10 @@
-function VirtualMachine() {
+function VirtualMachine(inputs) {
     this.ip = 0;
     this.sp = 0;
     this.program = [];
     this.stack = new Array(16);
     this.variables = {};
-    this.inputs = [];
+    this.inputs = inputs || [];
 
     this.refresh_inputs = function () {
         for (let i = 0; i < this.inputs.length; ++i) {
