@@ -1,7 +1,7 @@
 let sprites = [];
 
 let ship_image = new Image();
-ship_image.src = "./ship_base.png";
+ship_image.src = "./Ship_base.png";
 
 function resize() {
     let width = ctx.canvas.clientWidth;
