@@ -15,8 +15,29 @@ function init() {
     requestAnimationFrame(onframe);
     last = performance.now();
 
-    sprites.push(new Processor(-32, -64));
-    sprites.push(new Processor(-128, 32, "out0 = in0 + in1;", [new ConstantInput(10), new ConstantInput(12)]));
+    createSprites();
+
+    {
+        let processor = new Processor(-1, -3.5, "out0 = in0 - 2;", [new ClearanceInput({ x: 0.5, y: -3.5 }, 0.75)]);
+        sprites.push(processor);
+        let door = new Door(0, -4, new OutputInput(processor, 0));
+        sprites.push(door);
+        hints.push(new Hint("You need to open that door. Hack the microchip and change its output.", "out0 = 1;", [{ x: -1, y: -3.5 }], function () {
+            if (door.open > 0)
+                this.getPriority = function () { return 0; };
+            return 1000;
+        }));
+    }
+
+    {
+        let processor = new Processor(-5.5, -7.5, "out0 = in0 + in1 - 6;", [new ClearanceInput({ x: -6.5, y: -5 }, 1.5), new ClearanceInput({ x: -6.5, y: -7 }, 1.5)]);
+        sprites.push(processor);
+        let door = new DoorVertical(-7, -6, new OutputInput(processor, 0));
+        sprites.push(door);
+        hints.push(new Hint("Good job!", "", [], function () {
+            return 10;
+        }));
+    }
 
     player = new Player();
 
@@ -30,15 +51,30 @@ function Processor(x, y, code, inputs) {
     this.x = x;
     this.y = y;
     this.image = new Image();
-    this.image.src = "processor.png";
-    this.w = 32;
-    this.h = 32;
+    this.image.src = "./processor.png";
+    this.w = 1;
+    this.h = 1;
+    this.rotation = 0;
     this.vm = new VirtualMachine(inputs);
     vms.push(this.vm);
     this.code = code || "";
 
     this.vm.program = compile(this.code);
     this.vm.ip = 0;
+
+    this.accumulator = 0;
+    this.image_alt = new Image();
+    this.image_alt.src = "./processor_frame.png";
+
+    this.tick = function (delta) {
+        this.accumulator += delta;
+        if (this.accumulator > 1000) {
+            this.accumulator -= 1000;
+            let tmp = this.image_alt;
+            this.image_alt = this.image;
+            this.image = tmp;
+        }
+    }
 }
 
 function onframe(time) {
@@ -68,16 +104,10 @@ function tick(delta) {
         accumulator -= cycle_length;
     }
 
-    if (document.activeElement !== document.getElementById("code")) {
-        let speed = 0.1;
-        if (pressedKeys["w"])
-            player.y -= speed * delta;
-        if (pressedKeys["a"])
-            player.x -= speed * delta;
-        if (pressedKeys["s"])
-            player.y += speed * delta;
-        if (pressedKeys["d"])
-            player.x += speed * delta;
+    for (let sprite of sprites) {
+        if (sprite.tick) {
+            sprite.tick(delta);
+        }
     }
 
     let closest_processor = null;
@@ -85,12 +115,14 @@ function tick(delta) {
         if (sprite.vm) {
             let dx = sprite.x - player.x;
             let dy = sprite.y - player.y;
-            if (dx * dx + dy * dy < 1024) {
+            if (dx * dx + dy * dy < 1) {
                 closest_processor = sprite;
             }
         }
     }
     set_open_compiler(closest_processor);
+
+    updateHint();
 }
 
 function oncodechanged() {
@@ -113,17 +145,17 @@ function refresh_variables() {
         let index = 0;
         for (let variable in processor.vm.variables) {
             let row = table.rows[index];
-            if (row.cells[0].innerHTML != variable)
+            if (row.cells[0].innerHTML !== variable.toString())
                 row.cells[0].innerHTML = variable;
-            if (row.cells[1].innerHTML != processor.vm.variables[variable])
+            if (row.cells[1].innerHTML !== processor.vm.variables[variable].toString())
                 row.cells[1].innerHTML = processor.vm.variables[variable];
             ++index;
         }
         for (; index < table.rows.length; ++index) {
             let row = table.rows[index];
-            if (row.cells[0].innerHTML != "")
+            if (row.cells[0].innerHTML !== "")
                 row.cells[0].innerHTML = "";
-            if (row.cells[1].innerHTML != "")
+            if (row.cells[1].innerHTML !== "")
                 row.cells[1].innerHTML = "";
         }
     }

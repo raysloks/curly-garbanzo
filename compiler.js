@@ -16,6 +16,26 @@ function tokenize(code) {
 function parse_statements(tokens) {
     let statements = [];
 
+    {
+        let start = 0;
+        let depth = 0;
+        for (let i = 0; i < tokens.length; ++i) {
+            if (tokens[i] === "{") {
+                if (depth === 0) {
+                    start = i;
+                }
+                ++depth;
+            }
+            if (tokens[i] === "}") {
+                --depth;
+                if (depth === 0) {
+                    tokens.splice(start, i - start + 1, build_tree(tokens.slice(start + 1, i)));
+                    i = start;
+                }
+            }
+        }
+    }
+
     let start = 0;
     let end = tokens.indexOf(";");
     while (end >= 0) {
@@ -59,8 +79,16 @@ function build_tree(tokens) {
             --depth;
             if (depth === 0) {
                 tokens.splice(start, i - start + 1, build_tree(tokens.slice(start + 1, i)));
+                i = start;
             }
         }
+    }
+
+    switch (tokens[0]) {
+        case "if":
+            break;
+        default:
+            break;
     }
 
     let node =

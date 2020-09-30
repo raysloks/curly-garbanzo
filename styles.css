@@ -33,9 +33,11 @@ button {
     position: absolute;
     left: 100%;
     top: 0%;
-    height: 100%;
+    bottom: 4px;
     width: 200px;
     background-color: rgba(255, 255, 255, 0.8);
+    outline: 1px solid black;
+    outline-offset: -1px;
 }
 
 table {
@@ -48,6 +50,19 @@ table {
 td {
     width: 50%;
     border: 1px solid black;
+}
+
+#help_container {
+    background-color: rgba(255, 255, 255, 0.8);
+    width: 600px;
+    position: absolute;
+    right: 16px;
+    top: 16px;
+}
+
+#hint_text {
+    margin: 16px;
+    font-size: 36px;
 }
 
 #animatedBackground {

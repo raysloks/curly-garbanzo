@@ -14,6 +14,8 @@ function VirtualMachine(inputs) {
 
     this.cycle = function () {
         if (this.ip >= this.program.length)
+            this.ip = 0;
+        if (this.ip >= this.program.length)
             return;
         let op = this.program[this.ip];
         ++this.ip;
