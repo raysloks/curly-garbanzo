@@ -43,18 +43,21 @@ function init() {
 
     {
         let temp_input = {};
-        let processor = new Processor(-11.5, -4.5, "", [temp_input]);
+        let processor = new Processor(-10, -4.5, "", [temp_input]);
         sprites.push(processor);
         let reactor = new Reactor(-11.5, -6.5, new OutputInput(processor, 0));
         sprites.push(reactor);
+        sprites.push(new ReactorTemperature(-10.75, -4.25, reactor));
         temp_input.get = function () {
             return reactor.temp;
         }
-        hints.push(new Hint("The reactor's control panel has been fried.", "", [], function () {
+        hints.push(new Hint("The reactor's control panel has been fried. You need to fix it. Keep its temperature between 500\xB0C and 9000\xB0C for 10 seconds and I'll call it a success.", "", [], function () {
+            if (reactor.power > 10000)
+                this.getPriority = function () { return 0; };
             return 998;
         }));
         hints.push(new Hint("Yes! The reactor is stable!", "", [], function () {
-            return 0;
+            return 997;
         }));
     }
 

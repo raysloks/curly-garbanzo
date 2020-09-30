@@ -1,6 +1,7 @@
 function Reactor(x, y, input) {
     this.x = x;
     this.y = y;
+    this.z = -1000;
     this.w = 6;
     this.h = 6;
     this.image = new Image();
@@ -11,6 +12,7 @@ function Reactor(x, y, input) {
     this.input = input;
     this.accumulator = 0;
     this.cooldown = false;
+    this.power = 0;
     this.tick = function (delta) {
         this.accumulator += delta;
         let control = this.input.get();
@@ -34,9 +36,26 @@ function Reactor(x, y, input) {
                 this.cooldown = true;
             if (this.temp < 100)
                 this.cooldown = false;
+            if (this.temp <= 9000 && this.temp >= 500)
+                this.power += 100;
+            else
+                this.power = 0;
             this.temp -= 20;
             this.temp *= 0.95;
             this.temp += 20;
         }
+    };
+}
+
+function ReactorTemperature(x, y, reactor) {
+    this.x = x;
+    this.y = y;
+    this.text = "";
+    this.font = "0.75px Consolas";
+    this.align = "right";
+    this.color = "orange";
+    this.reactor = reactor;
+    this.tick = function (delta) {
+        this.text = this.reactor.temp.toFixed(0) + "\xB0C";
     };
 }

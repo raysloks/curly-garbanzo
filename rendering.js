@@ -49,5 +49,15 @@ function render() {
             ctx.drawImage(sprite.image, -sprite.w / 2, -sprite.h / 2, sprite.w, sprite.h);
             ctx.restore();
         }
+        if (sprite.text) {
+            ctx.save();
+            ctx.translate(sprite.x, sprite.y);
+            ctx.rotate(sprite.rotation);
+            ctx.font = sprite.font || "sans";
+            ctx.textAlign = sprite.align || "left";
+            ctx.fillStyle = sprite.color || "black";
+            ctx.fillText(sprite.text, 0, 0);
+            ctx.restore();
+        }
     }
 }
