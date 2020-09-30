@@ -57,7 +57,8 @@ function init() {
         hints.push(new Hint("The reactor's control panel has been fried. " +
             "You need to fix it. Keep its temperature between 500\xB0C and 9000\xB0C for 10 seconds and I'll call it a success.\n\n" +
             "The input is the current temperature of the reactor.\n" +
-            "The output controls the % of neutrons allowed to keep reacting.", "", [{ x: -10, y: -4.5 }], function () {
+            "The output controls the % of neutrons allowed to keep reacting.\n\n" +
+            "The higher the temperature, the lower the output must be!", "", [{ x: -10, y: -4.5 }], function () {
                 if (reactor.power > 10000)
                     this.getPriority = function () { return 0; };
                 return 998;
