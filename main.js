@@ -46,7 +46,7 @@ function init() {
     let reactor;
     {
         let temp_input = {};
-        let processor = new Processor(-10, -4.5, "", [temp_input]);
+        let processor = new Processor(-10, -4.5, "out0 = 0;", [temp_input]);
         sprites.push(processor);
         reactor = new Reactor(-11.5, -6.5, new OutputInput(processor, 0));
         sprites.push(reactor);
