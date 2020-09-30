@@ -10,11 +10,21 @@ function fillRectangle(x0, y0, x1, y2, value) {
 }
 
 fillRectangle(-5, -3, 5, 0, 1);
+
 fillRectangle(-6, -7, 7, -5, 1);
+
 fillRectangle(0, -4, 0, -4, 1);
+
 fillRectangle(7, -6, 10, -2, 1);
+
 fillRectangle(-16, -10, -8, -2, 1);
+fillRectangle(-14, -10, -10, -5, 0);
+
 fillRectangle(-7, -6, -7, -6, 1);
+
+fillRectangle(-12, 2, 0, 4, 1);
+
+fillRectangle(-2, 1, -2, 1, 1);
 
 function checkGrid(x, y) {
     let upper_x = Math.floor(x);
@@ -43,6 +53,8 @@ function moveOnGrid(p, dp) {
 function createSprites() {
 
     for (let key in grid) {
+        if (!grid[key])
+            continue;
         let x, y;
         [x, y] = key.split(",");
         x = parseFloat(x);

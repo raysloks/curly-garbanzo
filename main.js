@@ -34,10 +34,40 @@ function init() {
         sprites.push(processor);
         let door = new DoorVertical(-7, -6, new OutputInput(processor, 0));
         sprites.push(door);
-        hints.push(new Hint("Good job!", "", [], function () {
-            return 10;
+        hints.push(new Hint("Well done! I need you to enter the reactor, and restart it.", "", [{ x: -5.5, y: -7.5 }], function () {
+            if (door.open > 0)
+                this.getPriority = function () { return 0; };
+            return 999;
         }));
     }
+
+    {
+        let temp_input = {};
+        let processor = new Processor(-11.5, -4.5, "", [temp_input]);
+        sprites.push(processor);
+        let reactor = new Reactor(-11.5, -6.5, new OutputInput(processor, 0));
+        sprites.push(reactor);
+        temp_input.get = function () {
+            return reactor.temp;
+        }
+        hints.push(new Hint("The reactor's control panel has been fried.", "", [], function () {
+            return 998;
+        }));
+        hints.push(new Hint("Yes! The reactor is stable!", "", [], function () {
+            return 0;
+        }));
+    }
+
+    {
+        let processor = new Processor(0, 1.5, "out0 = in0 - 1;", [new ClearanceInput({ x: -1.5, y: 1.5 }, 0.75)]);
+        sprites.push(processor);
+        let door = new Door(-2, 1, new OutputInput(processor, 0));
+        sprites.push(door);
+    }
+
+    sprites.push(new Sprite("./engine.png", -10, 6, 4, 4, 1000));
+    sprites.push(new Sprite("./engine.png", -6, 6, 4, 4, 1000));
+    sprites.push(new Sprite("./engine.png", -2, 6, 4, 4, 1000));
 
     player = new Player();
 
@@ -147,8 +177,8 @@ function refresh_variables() {
             let row = table.rows[index];
             if (row.cells[0].innerHTML !== variable.toString())
                 row.cells[0].innerHTML = variable;
-            if (row.cells[1].innerHTML !== processor.vm.variables[variable].toString())
-                row.cells[1].innerHTML = processor.vm.variables[variable];
+            if (row.cells[1].innerHTML !== processor.vm.variables[variable].toFixed(2))
+                row.cells[1].innerHTML = processor.vm.variables[variable].toFixed(2);
             ++index;
         }
         for (; index < table.rows.length; ++index) {
