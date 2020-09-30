@@ -63,6 +63,7 @@ td {
 #hint_text {
     margin: 16px;
     font-size: 36px;
+    white-space: pre-wrap;
 }
 
 #animatedBackground {

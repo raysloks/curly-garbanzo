@@ -15,7 +15,7 @@ function Reactor(x, y, input) {
     this.power = 0;
     this.tick = function (delta) {
         this.accumulator += delta;
-        let control = this.input.get();
+        let control = this.input.get() / 100;
         while (this.accumulator > 100) {
             this.accumulator -= 100;
             if (this.cooldown)
@@ -57,5 +57,6 @@ function ReactorTemperature(x, y, reactor) {
     this.reactor = reactor;
     this.tick = function (delta) {
         this.text = this.reactor.temp.toFixed(0) + "\xB0C";
+        this.color = this.reactor.cooldown ? "red" : "orange";
     };
 }

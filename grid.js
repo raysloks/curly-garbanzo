@@ -15,14 +15,15 @@ fillRectangle(-6, -7, 7, -5, 1);
 
 fillRectangle(0, -4, 0, -4, 1);
 
-fillRectangle(7, -6, 10, -2, 1);
+fillRectangle(7, -5, 14, -2, 1);
 
-fillRectangle(-16, -10, -8, -2, 1);
-fillRectangle(-14, -10, -10, -5, 0);
+fillRectangle(-14, -8, -8, -2, 1);
+fillRectangle(-14, -8, -10, -5, 0);
 
 fillRectangle(-7, -6, -7, -6, 1);
 
-fillRectangle(-12, 2, 0, 4, 1);
+fillRectangle(-12, 2, 14, 4, 1);
+fillRectangle(-12, 3, -6, 3, 0);
 
 fillRectangle(-2, 1, -2, 1, 1);
 

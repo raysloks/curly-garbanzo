@@ -22,7 +22,8 @@ function init() {
         sprites.push(processor);
         let door = new Door(0, -4, new OutputInput(processor, 0));
         sprites.push(door);
-        hints.push(new Hint("You need to open that door. Hack the microchip and change its output.", "out0 = 1;", [{ x: -1, y: -3.5 }], function () {
+        hints.push(new Hint("You need to open that door. Hack the microchip and change its output.\n\n" + 
+            "Outputting a value larger than 0 will open the door.", "out0 = 1;", [{ x: -1, y: -3.5 }], function () {
             if (door.open > 0)
                 this.getPriority = function () { return 0; };
             return 1000;
@@ -41,23 +42,49 @@ function init() {
         }));
     }
 
+    let reactor;
     {
         let temp_input = {};
         let processor = new Processor(-10, -4.5, "", [temp_input]);
         sprites.push(processor);
-        let reactor = new Reactor(-11.5, -6.5, new OutputInput(processor, 0));
+        reactor = new Reactor(-11.5, -6.5, new OutputInput(processor, 0));
         sprites.push(reactor);
         sprites.push(new ReactorTemperature(-10.75, -4.25, reactor));
         temp_input.get = function () {
             return reactor.temp;
         }
-        hints.push(new Hint("The reactor's control panel has been fried. You need to fix it. Keep its temperature between 500\xB0C and 9000\xB0C for 10 seconds and I'll call it a success.", "", [], function () {
-            if (reactor.power > 10000)
-                this.getPriority = function () { return 0; };
-            return 998;
-        }));
-        hints.push(new Hint("Yes! The reactor is stable!", "", [], function () {
+        hints.push(new Hint("The reactor's control panel has been fried. " +
+            "You need to fix it. Keep its temperature between 500\xB0C and 9000\xB0C for 10 seconds and I'll call it a success.\n\n" +
+            "The input is the current temperature of the reactor.\n" +
+            "The output controls the % of neutrons allowed to keep reacting.", "", [{ x: -10, y: -4.5 }], function () {
+                if (reactor.power > 10000)
+                    this.getPriority = function () { return 0; };
+                return 998;
+            }
+        ));
+        hints.push(new Hint("Yes! The reactor is stable! Now head to the engines.", "", [{ x: -1.5, y: 2.5 }], function () {
+            if (this.active) {
+                if (player.y > 1.5)
+                    this.getPriority = function () { return 0; };
+            }
             return 997;
+        }));
+    }
+
+    let fc;
+    {
+        fc = new Processor(13.5, 1.5, "", []);
+        sprites.push(fc);
+    }
+
+    {
+        sprites.push(new Sprite("./engine.png", -13, 2.5, 3, 3, -1000));
+        sprites.push(new Sprite("./engine.png", -13, 4.5, 3, 3, -1000));
+
+        let processor = new Processor(-11, 3.5, "", [new OutputInput(fc, 0), new OutputInput(fc, 1)]);
+        sprites.push(processor);
+        hints.push(new Hint("I need you to activate the engines.", "", [{ x: -11, y: 3.5 }], function () {
+            return 996;
         }));
     }
 
@@ -68,9 +95,7 @@ function init() {
         sprites.push(door);
     }
 
-    sprites.push(new Sprite("./engine.png", -10, 6, 4, 4, 1000));
-    sprites.push(new Sprite("./engine.png", -6, 6, 4, 4, 1000));
-    sprites.push(new Sprite("./engine.png", -2, 6, 4, 4, 1000));
+    sprites.push(new Cockpit(14, 3));
 
     player = new Player();
 
@@ -180,8 +205,11 @@ function refresh_variables() {
             let row = table.rows[index];
             if (row.cells[0].innerHTML !== variable.toString())
                 row.cells[0].innerHTML = variable;
-            if (row.cells[1].innerHTML !== processor.vm.variables[variable].toFixed(2))
-                row.cells[1].innerHTML = processor.vm.variables[variable].toFixed(2);
+            let value = processor.vm.variables[variable];
+            if (value !== undefined)
+                value = value.toFixed(2);
+            if (row.cells[1].innerHTML !== value)
+                row.cells[1].innerHTML = value;
             ++index;
         }
         for (; index < table.rows.length; ++index) {
