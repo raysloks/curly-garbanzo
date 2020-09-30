@@ -8,15 +8,15 @@
 }
 
 textarea {
-    font-size: 24px;
+    font-size: 36px;
     font-family: Consolas;
-    width: 512px;
-    height: 512px;
+    width: 420px;
+    height: 360px;
     padding: 16px;
 }
 
 button {
-    font-size: 36px;
+    font-size: 48px;
     position: absolute;
     bottom: 16px;
     right: 50%;
@@ -34,7 +34,7 @@ button {
     left: 100%;
     top: 0%;
     bottom: 4px;
-    width: 200px;
+    width: 320px;
     background-color: rgba(255, 255, 255, 0.8);
     outline: 1px solid black;
     outline-offset: -1px;
@@ -44,7 +44,7 @@ table {
     width: 100%;
     border-collapse: collapse;
     font-family: Consolas;
-    font-size: 24px;
+    font-size: 36px;
 }
 
 td {

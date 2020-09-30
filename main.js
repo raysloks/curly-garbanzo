@@ -5,6 +5,7 @@ let player;
 let pressedKeys = {};
 let vms = [];
 let code_container;
+let game_over = false;
 
 function init() {
     let canvas = document.getElementById("main");
@@ -71,20 +72,33 @@ function init() {
         }));
     }
 
-    let fc;
+    //let fc;
+    //{
+    //    fc = new Processor(13.5, 1.5, "", []);
+    //    sprites.push(fc);
+    //}
+
     {
-        fc = new Processor(13.5, 1.5, "", []);
-        sprites.push(fc);
+        let processor = new Processor(-11, 3.5, "", [/*new OutputInput(fc, 0), new OutputInput(fc, 1)*/]);
+
+        let engine0 = new Engine(-13, 2.5, new OutputInput(processor, 0), reactor);
+        let engine1 = new Engine(-13, 4.5, new OutputInput(processor, 1), reactor);
+        sprites.push(engine0);
+        sprites.push(engine1);
+        sprites.push(processor);
+        hints.push(new Hint("I need you to activate the engines.", "", [{ x: -11, y: 3.5 }], function () {
+            if (engine0.power > 0 && engine1.power > 0)
+                this.getPriority = function () { return 0; };
+            return 996;
+        }));
     }
 
     {
-        sprites.push(new Sprite("./engine.png", -13, 2.5, 3, 3, -1000));
-        sprites.push(new Sprite("./engine.png", -13, 4.5, 3, 3, -1000));
-
-        let processor = new Processor(-11, 3.5, "", [new OutputInput(fc, 0), new OutputInput(fc, 1)]);
-        sprites.push(processor);
-        hints.push(new Hint("I need you to activate the engines.", "", [{ x: -11, y: 3.5 }], function () {
-            return 996;
+        hints.push(new Hint("Alright! Head to the cockpit!", "", [{ x: 14, y: 3 }], function () {
+            if (this.active && camera_scale > 1) {
+                game_over = true;
+            }
+            return 995;
         }));
     }
 
@@ -117,6 +131,7 @@ function Processor(x, y, code, inputs) {
     vms.push(this.vm);
     this.code = code || "";
 
+    this.vm.code = this.code;
     this.vm.program = compile(this.code);
     this.vm.ip = 0;
 
@@ -188,12 +203,21 @@ function oncodechanged() {
 }
 
 function oncompile() {
+    processor.vm.code = processor.code;
     processor.vm.program = compile(processor.code);
     processor.vm.ip = 0;
 }
 
+let button_enabled = true;
+
 function refresh_variables() {
     if (processor !== null) {
+        let is_compiled = processor.code === processor.vm.code;
+        if (button_enabled === is_compiled) {
+            button_enabled = !button_enabled;
+            let button = document.getElementById("button");
+            button.disabled = !button_enabled;
+        }
         let table = document.getElementById("variables_table");
         while (table.rows.length < Object.keys(processor.vm.variables).length) {
             let row = table.insertRow(-1);

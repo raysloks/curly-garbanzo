@@ -29,4 +29,17 @@ function Engine(x, y, input, reactor) {
     this.z = -1000;
     this.image = new Image();
     this.image.src = "./engine.png";
+    this.jet = new Sprite("./jet.png", x, y);
+    this.input = input;
+    this.reactor = reactor;
+    this.power = 0;
+    sprites.push(this.jet);
+    this.tick = function (delta) {
+        let power = Math.min(1, Math.max(0, this.input.get())) * Math.min(10000, this.reactor.power) / 1000;
+        this.power -= power;
+        this.power *= Math.exp(Math.log(0.1) / 1000);
+        this.power += power;
+        this.jet.w = this.power;
+        this.jet.x = this.x - this.power / 2 - 1;
+    }
 }

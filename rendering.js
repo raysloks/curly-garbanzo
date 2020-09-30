@@ -66,4 +66,12 @@ function render() {
             ctx.restore();
         }
     }
+
+    if (game_over && camera_scale > 1) {
+        ctx.font = "96px serif";
+        ctx.textAlign = "center";
+        ctx.fillStyle = "cyan";
+        ctx.fillText("Game Over", 0, -100);
+        ctx.fillText("Thanks for playing!", 0, 100);
+    }
 }
