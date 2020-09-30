@@ -10,10 +10,10 @@
     <div id="animatedBackground"></div>
     <canvas id="main"></canvas>
     <div class="code_container" id="code_container">
-        <textarea id="code" onchange="oncodechanged()"></textarea>
+        <textarea id="code" oninput="oncodechanged()"></textarea>
         <div class="debug_container">
             <table id="variables_table"></table>
-            <button onclick="oncompile()">Compile</button>
+            <button id="button" onclick="oncompile()">Compile</button>
         </div>
     </div>
     <div id="help_container">
@@ -33,5 +33,6 @@
     <script src="door.js"></script>
     <script src="help.js"></script>
     <script src="reactor.js"></script>
+    <script src="ship.js"></script>
 </body>
 </html>

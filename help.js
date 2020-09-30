@@ -18,6 +18,7 @@ function getMostRelevantHint() {
 function updateHint() {
     let element = document.getElementById("hint_text");
     let hint = getMostRelevantHint();
+    hint.active = true;
     if (element.innerHTML != hint.text)
         element.innerHTML = hint.text;
     while (arrows.length < hint.positions.length) {
