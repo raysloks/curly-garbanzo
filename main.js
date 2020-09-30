@@ -79,7 +79,7 @@ function init() {
     //}
 
     {
-        let processor = new Processor(-11, 3.5, "", [/*new OutputInput(fc, 0), new OutputInput(fc, 1)*/]);
+        let processor = new Processor(-11, 3.5, "out1 = 0;", [/*new OutputInput(fc, 0), new OutputInput(fc, 1)*/]);
 
         let engine0 = new Engine(-13, 2.5, new OutputInput(processor, 0), reactor);
         let engine1 = new Engine(-13, 4.5, new OutputInput(processor, 1), reactor);

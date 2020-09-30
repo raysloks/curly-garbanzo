@@ -67,6 +67,8 @@ td {
 }
 
 #how_to_play {
+    position: absolute;
+    top: 50px;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
