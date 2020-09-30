@@ -72,6 +72,7 @@ function render() {
         ctx.textAlign = "center";
         ctx.fillStyle = "cyan";
         ctx.fillText("Game Over", 0, -100);
+        ctx.font = "72px serif";
         ctx.fillText("Thanks for playing!", 0, 100);
     }
 }

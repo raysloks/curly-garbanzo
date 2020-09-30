@@ -12,10 +12,10 @@ function Cockpit(x, y) {
         if (dx * dx + dy * dy < 1)
             zoom = true;
         if (zoom) {
-            camera_scale += delta * 0.05;
-            camera_scale = Math.min(50, camera_scale);
+            camera_scale += delta * 0.025;
+            camera_scale = Math.min(25, camera_scale);
         } else {
-            camera_scale -= delta * 0.05;
+            camera_scale -= delta * 0.025;
             camera_scale = Math.max(1, camera_scale);
         }
     };
