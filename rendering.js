@@ -61,3 +61,9 @@ function render() {
         }
     }
 }
+
+function removeImage() {
+    document.getElementById("controls").src="";
+    var element = document.getElementById("control_button");
+    element.parentNode.removeChild(element);
+}
