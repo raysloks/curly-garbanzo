@@ -2,7 +2,7 @@ function compile(code) {
     return parse_statements(tokenize(code)).flat(Infinity);
 }
 
-const regex = /\s*([a-zA-Z_]\w*|\d+|[=+\-*/]=|[=+\-*/()[\]{};])/g;
+const regex = /\s*([a-zA-Z_]\w*|\d*\.\d+|\d+|[=+\-*/]=|[=+\-*/()[\]{};])/g;
 
 function tokenize(code) {
     let matches = code.matchAll(regex);
